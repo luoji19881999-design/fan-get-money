@@ -7,39 +7,38 @@ allowed-tools: Bash(*), Read, Write, Edit, Glob, WebSearch, WebFetch, Skill
 
 # /money-find — 需求信号反推 + 反诈筛选
 
-## 跨平台资源路径
+## 跨平台说明（一次性，下文不再重复）
 
-- Codex 安装：优先读当前 skill 目录下的 `references/`、`templates/`、`examples/`、`adapters/`。
-- Claude Code / repo 内运行：若上述路径不存在，读 `../../shared-references/`、`../../templates/`、`../../examples/`、`../../adapters/`。
-- `allowed-tools` 是 Claude Code 权限声明；Codex 可忽略，并使用当前会话可用的网页检索、网页打开和本地文件工具完成同等动作。
+- **资源路径**：下文写的 `../../shared-references/`、`../../templates/`、`../../examples/`、`../../adapters/` 是 repo / Claude Code 的路径；**Codex 安装下改读当前 skill 目录的 `references/`、`templates/`、`examples/`、`adapters/`**（`install-codex.sh` 已软链进来）。
+- **网页检索/打开网页**：Claude Code 用 WebSearch / WebFetch；Codex 用其内置等价能力。`allowed-tools` 是 Claude Code 权限声明，Codex 忽略。
 
 ## 核心方法（先读这条）
 
 **主方法是「需求信号反推法」，不是「搜怎么赚钱的帖子」。**
 没人会把真能赚钱的方法发到"教你赚钱"的帖里——那类内容是卖课/钓粉漏斗，利益不中立。
 所以 money-find 看的是**利益中立的需求信号**（行业报告/招聘数据/采购数据/政策），再推理出个人能供给的机会。
-完整方法见需求信号参考（Codex: `references/demand-signal-method.md`；Claude/repo: `../../shared-references/demand-signal-method.md`），本 skill 严格执行它。
+完整方法见 `../../shared-references/demand-signal-method.md`，本 skill 严格执行它。
 
 ## 铁律
 
 1. **主信源是一级信号**（报告/招聘/采购/政策），**"教你赚钱"类帖子不作依据**，只用来了解方向。
 2. **每个机会要给"推理链 + 交叉验证"**：从哪个信号推出来、另一个独立信号怎么印证它。单一来源 = 未验证。
-3. **绝不凭记忆。** 信号一律用当前平台可用的网页检索能力实时获取（Claude Code 可用 WebSearch；Codex 使用内置网页检索/打开网页能力）。
+3. **绝不凭记忆。** 信号一律实时网页检索获取。
 4. **核查发布日期（rubric C′）。** 超 24 个月默认失效；12–24 个月标"可能过时"并交叉验证。检索词加年份。
 5. **每个机会先答"钱从哪来"**，且过三连：谁有真需求 / 个人能否供给 / 买家个人够不够得着。
-6. **每个机会必须过反诈参考**（Codex: `references/anti-scam-rubric.md`；Claude/repo: `../../shared-references/anti-scam-rubric.md`，含 C′），标注判定后才呈现。
+6. **每个机会必须过 `../../shared-references/anti-scam-rubric.md`**（含 C′），标注判定后才呈现。
 7. **按画像收敛**，不全量铺开。
 
 ## 流程
 
 ### Step 0 — 读上下文
 - 读 `.money-state.json` 拿画像 + **`profile.tier` 段位**（无 → 路由 `money-init`）。
-- 读 `references/user-tiers.md` 或 `../../shared-references/user-tiers.md`（按段位分流）。
-- 读 `references/demand-signal-method.md` 或 `../../shared-references/demand-signal-method.md`（主方法）。
-- 读 `references/opportunity-taxonomy.md` 或 `../../shared-references/opportunity-taxonomy.md`（机会类型，仅辅助分类）。
-- 读 `references/anti-scam-rubric.md` 或 `../../shared-references/anti-scam-rubric.md`（反诈 + 时效）。
+- 读 `../../shared-references/user-tiers.md`（按段位分流）。
+- 读 `../../shared-references/demand-signal-method.md`（主方法）。
+- 读 `../../shared-references/opportunity-taxonomy.md`（机会类型，仅辅助分类）。
+- 读 `../../shared-references/anti-scam-rubric.md`（反诈 + 时效）。
 - **读 `lessons.md`（若存在）**：用户过往复盘沉淀的经验，优先参考（哪类对他有效 / 哪些坑亲历过）。
-- **看 `examples/worked-examples.md` 或 `../../examples/worked-examples.md`** 作为高质量推理范本参照。
+- **看 `../../examples/worked-examples.md`** 作为高质量推理范本参照。
 
 ### Step 1 — 采集需求信号（demand-signal-method Step 1）
 **先按段位锁定方向范围**（user-tiers）：T0→平台众包/接单；T1→技能服务/B端陪跑；T2→小工具/GEO/SaaS；T3→垂直专业服务。**别给低段位推够不着的。**
@@ -49,8 +48,8 @@ allowed-tools: Bash(*), Read, Write, Edit, Glob, WebSearch, WebFetch, Skill
 - **成交侧**（闲鱼/1688/淘宝"正在卖什么服务、销量多少"——"有人真付钱"的直接证据）
   - ⚠️ **能力边界(诚实标注)**：网页检索通常进不去登录墙，**直接搜只能拿到二手转述**，不是平台实时数据。
   - ✅ **要一手数据用 adapter**（B 档半自动：用户自己登录+搜索，adapter 只读当前页公开列表；弹滑块用户手动过）：
-    - 成交侧 → `adapters/xianyu` 或 `../../adapters/xianyu`（在卖什么/什么价/多少人想要）
-    - 招聘侧 → `adapters/boss` 或 `../../adapters/boss`（在招什么/给多少/要哪些 AI 技能；**只读搜索结果列表页**，不进详情页、不碰 HR 个人信息，故不触反诈 A6）
+    - 成交侧 → `../../adapters/xianyu`（在卖什么/什么价/多少人想要）
+    - 招聘侧 → `../../adapters/boss`（在招什么/给多少/要哪些 AI 技能；**只读搜索结果列表页**，不进详情页、不碰 HR 个人信息，故不触反诈 A6）
 - `<行业> AI 落地 需求 / 缺口 / 痛点 报告`
 - `<工具/服务> 市场规模 增长 采购 B端`
 - `平台 官方 创作者 扶持 / 变现 政策` · `政策 / 监管 <领域> 新规`

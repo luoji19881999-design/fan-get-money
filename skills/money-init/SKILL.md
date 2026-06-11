@@ -1,6 +1,6 @@
 ---
 name: money-init
-description: 当用户说“我想搞钱”“找AI兼职”“搞钱初始化”“money init”等，或想找兼职/副业机会但当前目录没有 .money-state.json 时，使用本 skill 做首次 onboarding：建立用户画像（技能/可投入时间/启动资金/地区/能否露脸/语言）并创建状态文件，是所有其他 money- 子 skill 的前置。
+description: cheat-on-money skill 的首次 onboarding。建立用户画像（技能/可投入时间/启动资金/地区/能否露脸/语言）并创建 .money-state.json 状态文件，是所有其他 money- 子 skill 的前置。触发词："搞钱初始化"/"我想搞钱"/"找AI兼职"/"money init"/"搞钱 setup"。**当用户想找搞钱机会但 .money-state.json 不存在时，先路由到此。**
 argument-hint: ""
 allowed-tools: Bash(*), Read, Write, Edit, Glob, Skill
 ---
@@ -9,10 +9,9 @@ allowed-tools: Bash(*), Read, Write, Edit, Glob, Skill
 
 把用户从"我想搞钱"带到"有了一份清晰画像、可以开始找机会"，全程 ≤ 5 分钟。
 
-## 跨平台资源路径
+## 跨平台说明（一次性，下文不再重复）
 
-- Codex 安装：优先读当前 skill 目录下的 `references/user-tiers.md` 和 `templates/money-state.template.json`。
-- Claude Code / repo 内运行：若上述路径不存在，读 `../../shared-references/user-tiers.md` 和 `../../templates/money-state.template.json`。
+下文写的 `../../shared-references/`、`../../templates/` 是 repo / Claude Code 的路径；**Codex 安装下改读当前 skill 目录的 `references/`、`templates/`**（`install-codex.sh` 已软链进来）。`allowed-tools` 是 Claude Code 权限声明，Codex 忽略。
 
 ## 设计哲学（必须先认同）
 
@@ -62,7 +61,7 @@ test -f .money-state.json && echo EXISTS || echo MISSING
 
 ## Phase 2.5 — 段位识别（新增，关键）
 
-读用户段位参考（Codex: `references/user-tiers.md`；Claude/repo: `../../shared-references/user-tiers.md`），按"技能 × 资源 × 目标"把用户归到 **T0/T1/T2/T3** 一档：
+读 `../../shared-references/user-tiers.md`，按"技能 × 资源 × 目标"把用户归到 **T0/T1/T2/T3** 一档：
 - 有可迁移专业(医疗/法律/财务等)+会用 AI → 倾向 **T3**
 - 会编程或愿学编程做东西 → **T2**
 - 会熟练用 AI 工具、有审美/表达 → **T1**
@@ -72,7 +71,7 @@ test -f .money-state.json && echo EXISTS || echo MISSING
 
 ## Phase 3 — 写入状态文件
 
-读状态模板（Codex: `templates/money-state.template.json`；Claude/repo: `../../templates/money-state.template.json`），填入答案（含 `tier`/`tier_reason`），`created_at` 用今天日期，写到当前工作目录的 `.money-state.json`。删掉 opportunities 里的示例项。
+读 `../../templates/money-state.template.json`，填入答案（含 `tier`/`tier_reason`），`created_at` 用今天日期，写到当前工作目录的 `.money-state.json`。删掉 opportunities 里的示例项。
 
 ## Phase 4 — 下一步清单
 

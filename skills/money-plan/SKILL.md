@@ -9,9 +9,9 @@ allowed-tools: Bash(*), Read, Write, Edit, Glob, WebSearch, WebFetch, Skill
 
 把一个机会变成"今天就能动手 + 能低成本验证真能赚到钱"的计划。
 
-## 跨平台说明
+## 跨平台说明（一次性，下文不再重复）
 
-`allowed-tools` 是 Claude Code 权限声明；Codex 可忽略，并使用当前会话可用的网页检索、网页打开和本地文件工具完成同等动作。
+下文"网页检索/打开网页"：Claude Code 用 WebSearch / WebFetch，Codex 用其内置等价能力。`allowed-tools` 是 Claude Code 权限声明，Codex 忽略。
 
 ## 前置检查
 - 读 `.money-state.json` 找该机会。若未验证过或判定为高危 ❌，**先劝用户走 `money-verify`**，不直接做计划。
@@ -26,7 +26,7 @@ allowed-tools: Bash(*), Read, Write, Edit, Glob, WebSearch, WebFetch, Skill
 4. **止损线**：满足什么条件就该停（例：投入 X 小时后零正反馈 / 出现任何反诈红线 / 要求付费）。
 5. **复用 AI 提效点**：这个机会里 AI 具体帮你提效在哪一步（别让"用 AI"停在口号）。
 
-> 需要时用当前平台可用的网页检索能力查该机会当下的具体操作路径（平台怎么开通、怎么接单、怎么提现）。Claude Code 可用 WebSearch；Codex 使用内置网页检索/打开网页能力。
+> 需要时用网页检索查该机会当下的具体操作路径（平台怎么开通、怎么接单、怎么提现）。
 
 ## 落盘（含「预期」——这是校准环的起点）
 把方案写入 `.money-state.json` 的 `active`（chosen_id / started_at=今天 / plan），机会 status 改为 `chosen`。

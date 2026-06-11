@@ -9,15 +9,14 @@ allowed-tools: Bash(*), Read, Write, Edit, Glob, WebSearch, WebFetch, Skill
 
 这是整套工具最重要的能力：**判断一个机会是不是真能用的。** 宁可错杀，不可放过。
 
-## 跨平台资源路径
+## 跨平台说明（一次性，下文不再重复）
 
-- Codex 安装：优先读当前 skill 目录下的 `references/anti-scam-rubric.md`。
-- Claude Code / repo 内运行：若上述路径不存在，读 `../../shared-references/anti-scam-rubric.md`。
-- `allowed-tools` 是 Claude Code 权限声明；Codex 可忽略，并使用当前会话可用的网页检索、网页打开和本地文件工具完成同等动作。
+- **资源路径**：下文写的 `../../shared-references/` 是 repo / Claude Code 的路径；**Codex 安装下改读当前 skill 目录的 `references/`**（`install-codex.sh` 已软链进来）。
+- **网页检索/打开网页**：Claude Code 用 WebSearch / WebFetch；Codex 用其内置等价能力。`allowed-tools` 是 Claude Code 权限声明，Codex 忽略。
 
 ## 唯一标准来源
 
-打分必须严格依据反诈参考（Codex: `references/anti-scam-rubric.md`；Claude/repo: `../../shared-references/anti-scam-rubric.md`）。**不要凭直觉**，逐条对照红线。
+打分必须严格依据 `../../shared-references/anti-scam-rubric.md`。**不要凭直觉**，逐条对照红线。
 
 ## 流程
 
@@ -35,11 +34,11 @@ allowed-tools: Bash(*), Read, Write, Edit, Glob, WebSearch, WebFetch, Skill
 
 ### Step 4 — 实时查证（rubric C）
 **必须实际上网查，不能凭记忆下结论：**
-- 用当前平台可用的网页检索能力搜索：`<名称> 骗局` / `<名称> 靠谱吗` / `<名称> 被骗 投诉`（检索词加年份）。Claude Code 可用 WebSearch；Codex 使用内置网页检索/打开网页能力。
+- 网页检索：`<名称> 骗局` / `<名称> 靠谱吗` / `<名称> 被骗 投诉`（检索词加年份）。
 - **查实体真伪**：企查查/天眼查搜公司是否真实存在、有无异常；平台是否有备案、是否走担保交易
 - **查口碑**：黑猫投诉搜该平台/公司的真实投诉
 - 找第三方真实收款/受骗反馈（区分软文与真人）
-- **关键数字强制下钻**：任何要写进判定的数字（收入/市场/佣金），必须打开一手原文核对（Claude Code 可用 WebFetch；Codex 使用网页打开能力）；只来自搜索摘要的，判定里标「未核实」。
+- **关键数字强制下钻**：任何要写进判定的数字（收入/市场/佣金），必须打开一手原文核对；只来自搜索摘要的，判定里标「未核实」。
 
 ### Step 4.5 — 时效核查（rubric C′，强制）
 - 查每条关键来源（渠道/价格/玩法）的发布日期。
