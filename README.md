@@ -120,8 +120,18 @@ node read-boss.mjs "AIGC" 100010000 9222
 fan-get-money/
 ├── README.md
 ├── .gitignore
-├── install-codex.sh          # macOS/Linux 安装脚本
-├── install-codex.ps1         # Windows 安装脚本
+├── install-codex.sh          # Codex 安装脚本 (macOS/Linux)
+├── install-codex.ps1         # Codex 安装脚本 (Windows)
+├── install-all.sh            # 多平台安装脚本 (macOS/Linux)
+├── install-all.ps1           # 多平台安装脚本 (Windows)
+├── platforms/                # 各平台适配文件
+│   ├── universal/INSTRUCTIONS.md  # 通用指令（可粘贴到任意 AI 工具）
+│   ├── claude-code/CLAUDE.md
+│   ├── cursor/fan-get-money.mdc
+│   ├── gemini/instructions.md
+│   ├── copilot/copilot-instructions.md
+│   ├── hermes/HERMES.md
+│   └── wordbuddy/WORDBUDDY.md
 ├── shared-references/        # 所有 skill 共享的参考文档
 │   ├── user-tiers.md         # T0-T3 分层标准 + 升级条件
 │   ├── demand-signal-method.md  # 需求信号反推法详解
@@ -207,5 +217,6 @@ MIT License
 - 适配器坏了（平台改版导致选择器失效）→ 发 `diagnostics` 输出即可，几分钟能校准
 - 有新的平台适配器 → 按照 `human-in-the-loop, read-only` 规范写，过反诈 self-check
 - 有新的机会分类 → 更新 `opportunity-taxonomy.md`
+
 
 
