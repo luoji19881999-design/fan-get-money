@@ -8,12 +8,12 @@
 
 | 阶段 | 命令 | 做了什么 |
 |------|------|----------|
-| ?? 初始化 | `/fan-money-init` | 5 个问题建立你的画像，10 维度评估，分 T0-T3 层级 |
-| ?? 找机会 | `/fan-money-find` | 实时搜索 + 一手平台数据，需求信号反推法输出机会列表 |
-| ??? 反诈 | `/fan-money-verify` | 对任意项目过反诈 rubric 24 分制，高危直接毙 |
-| ?? 行动 | `/fan-money-plan` | 生成执行计划：第一步验证、两周动作、预期收入、止损线 |
-| ?? 复盘 | `/fan-money-retro` | 对比预测 vs 实际，沉淀 lessons.md，触发层级升级 |
-| ?? 看板 | `/fan-money-status` | 只读状态总览：画像、机会、进度、复盘记录 |
+| [Init] 初始化 | `/fan-money-init` | 5 个问题建立你的画像，10 维度评估，分 T0-T3 层级 |
+| [Find] 找机会 | `/fan-money-find` | 实时搜索 + 一手平台数据，需求信号反推法输出机会列表 |
+| [Verify] 反诈 | `/fan-money-verify` | 对任意项目过反诈 rubric 24 分制，高危直接毙 |
+| [Plan] 行动 | `/fan-money-plan` | 生成执行计划：第一步验证、两周动作、预期收入、止损线 |
+| [Retro] 复盘 | `/fan-money-retro` | 对比预测 vs 实际，沉淀 lessons.md，触发层级升级 |
+| [Status] 看板 | `/fan-money-status` | 只读状态总览：画像、机会、进度、复盘记录 |
 
 ## 适用平台 & 工具
 
@@ -37,11 +37,11 @@
 | 功能 | Codex | Claude Code | Cursor | Gemini | Copilot | Windsurf | Hermes | WordBuddy |
 |------|:-----:|:-----------:|:------:|:------:|:-------:|:--------:|:------:|:---------:|
 | 命令触发 | `/fan-money-init` | 自然语言 | Rules 自动 | 自然语言 | 自动 | 自动 | 自然语言 | 自然语言 |
-| .money-state.json | ? | ? | ? | ? | ? | ? | ? | ? |
-| 实时 WebSearch | ? | ? | ? | ? | ? | ? | ?? | ?? |
-| 运行适配器 | ? | ? | ? | ? | ? | ? | ? | ? |
-| 五层反诈 | ? | ? | ? | ? | ? | ? | ? | ? |
-| lessons.md 沉淀 | ? | ? | ? | ? | ? | ? | ? | ? |
+| .money-state.json | 全自动 | 全自动 | 全自动 | 全自动 | 全自动 | 全自动 | 全自动 | 全自动 |
+| 实时 WebSearch | 内置 | 内置 | 内置 | 内置 | 内置 | 内置 | 需配置 | 需配置 |
+| 运行适配器 | 可运行 | 可运行 | 可运行 | 可运行 | 可运行 | 可运行 | 可运行 | 可运行 |
+| 五层反诈 | 完整 | 完整 | 完整 | 完整 | 完整 | 完整 | 完整 | 完整 |
+| lessons.md 沉淀 | 支持 | 支持 | 支持 | 支持 | 支持 | 支持 | 支持 | 支持 |
 
 ## 工作原理
 
@@ -140,7 +140,7 @@ node read-boss.mjs "AIGC" 100010000 9222
 # → 输出当前搜索结果的 JSON
 ```
 
-> ?? 两个 adapter 都是 **B 档（human-in-the-loop, read-only）**：只读公开列表页、低频使用、不碰个人隐私、不规避平台审核。**请勿改成自动批量爬取**（触发风控 + 违反 ToS + 违反反诈 rubric A6）。
+> [Init] 两个 adapter 都是 **B 档（human-in-the-loop, read-only）**：只读公开列表页、低频使用、不碰个人隐私、不规避平台审核。**请勿改成自动批量爬取**（触发风控 + 违反 ToS + 违反反诈 rubric A6）。
 
 ## 仓库结构
 
@@ -245,6 +245,10 @@ MIT License
 - 适配器坏了（平台改版导致选择器失效）→ 发 `diagnostics` 输出即可，几分钟能校准
 - 有新的平台适配器 → 按照 `human-in-the-loop, read-only` 规范写，过反诈 self-check
 - 有新的机会分类 → 更新 `opportunity-taxonomy.md`
+
+
+
+
 
 
 
