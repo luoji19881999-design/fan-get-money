@@ -1,6 +1,6 @@
 # fan-get-money
 
-**AI 时代搞钱助手** — 一组 Codex 技能，用「需求信号反推法」帮你找 AI 时代的兼职/副业/搞钱机会，并配套反诈验证、行动计划、复盘的完整闭环。
+**AI 时代搞钱助手** — 适配主流 Vibe Coding 平台的搞钱技能包，用「需求信号反推法」帮你找 AI 时代的兼职/副业/搞钱机会，并配套反诈验证、行动计划、复盘的完整闭环。
 
 > 不搜"教你赚钱"的帖子（那是卖课钓粉的污染信源）。从行业报告、招聘数据、一手平台成交数据里反推出真正的需求信号，推理个人能供给的机会。
 
@@ -14,6 +14,34 @@
 | ?? 行动 | `/fan-money-plan` | 生成执行计划：第一步验证、两周动作、预期收入、止损线 |
 | ?? 复盘 | `/fan-money-retro` | 对比预测 vs 实际，沉淀 lessons.md，触发层级升级 |
 | ?? 看板 | `/fan-money-status` | 只读状态总览：画像、机会、进度、复盘记录 |
+
+## 适用平台 & 工具
+
+`fan-get-money` 是一个**方法技能包**，不是某个平台的专属插件。支持以下所有 Vibe Coding 平台和 AI 编程工具：
+
+| 平台 | 类型 | 安装方式 | 触发方式 |
+|------|------|----------|----------|
+| **[OpenAI Codex](https://openai.com/codex)** | AI 编码助手 | `./install-all.sh codex` 或 `./install-codex.sh` | `/fan-money-init` |
+| **[Anthropic Claude Code](https://claude.ai)** | AI 编码助手 (CLI) | `./install-all.sh claude` | "搞钱初始化" |
+| **[Cursor](https://cursor.com)** | AI IDE | `./install-all.sh cursor` | Rules 自动生效 |
+| **[Google Gemini CLI](https://github.com/google-gemini)** | AI 编码助手 (CLI) | `./install-all.sh gemini` | "搞钱初始化" |
+| **[GitHub Copilot](https://github.com/features/copilot)** | AI 编码助手 | `./install-all.sh copilot` | Instructions 自动生效 |
+| **[Windsurf](https://codeium.com/windsurf)** | AI IDE | `./install-all.sh windsurf` | Rules 自动生效 |
+| **[Hermes](https://hermes.ai)** | AI 编码助手 | `./install-all.sh hermes` | "搞钱初始化" |
+| **[WordBuddy](https://wordbuddy.com)** | AI 写作/编码工具 | `./install-all.sh wordbuddy` | "搞钱初始化" |
+
+> 如果不属于以上平台，也可以直接用：把 `platforms/universal/INSTRUCTIONS.md` 的内容粘贴到任意 AI 工具的 **Custom Instructions / System Prompt / Rules** 字段即可生效。适配器脚本（闲鱼 / BOSS 直聘数据抓取）在 `adapters/` 目录下独立运行，不依赖任何平台。
+
+### 在各平台的体验差异
+
+| 功能 | Codex | Claude Code | Cursor | Gemini | Copilot | Windsurf | Hermes | WordBuddy |
+|------|:-----:|:-----------:|:------:|:------:|:-------:|:--------:|:------:|:---------:|
+| 命令触发 | `/fan-money-init` | 自然语言 | Rules 自动 | 自然语言 | 自动 | 自动 | 自然语言 | 自然语言 |
+| .money-state.json | ? | ? | ? | ? | ? | ? | ? | ? |
+| 实时 WebSearch | ? | ? | ? | ? | ? | ? | ?? | ?? |
+| 运行适配器 | ? | ? | ? | ? | ? | ? | ? | ? |
+| 五层反诈 | ? | ? | ? | ? | ? | ? | ? | ? |
+| lessons.md 沉淀 | ? | ? | ? | ? | ? | ? | ? | ? |
 
 ## 工作原理
 
@@ -217,6 +245,7 @@ MIT License
 - 适配器坏了（平台改版导致选择器失效）→ 发 `diagnostics` 输出即可，几分钟能校准
 - 有新的平台适配器 → 按照 `human-in-the-loop, read-only` 规范写，过反诈 self-check
 - 有新的机会分类 → 更新 `opportunity-taxonomy.md`
+
 
 
 
