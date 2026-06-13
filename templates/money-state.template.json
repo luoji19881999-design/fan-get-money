@@ -1,0 +1,33 @@
+{
+  "schema_version": 2,
+  "updated_at": "<YYYY-MM-DD>",
+  "profile": {
+    "tier": "T0|T1|T2|T3",
+    "tier_reason": "",
+    "age": null,
+    "gender": "",
+    "past_experience": [],
+    "skills": [],
+    "daily_hours": null,
+    "startup_capital": 0,
+    "team_size": 1,
+    "region": "????",
+    "can_show_face": null,
+    "language": [
+      "??"
+    ],
+    "goal": "",
+    "notes": ""
+  },
+  "active": {
+    "chosen_id": null,
+    "name": "",
+    "started_at": null,
+    "prediction": {
+      "expected_hours": null,
+      "expected_first_income_days": null,
+      "expected_income_range": null,
+      "recorded_at": null
+    }
+  }
+}

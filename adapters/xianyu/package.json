@@ -1,0 +1,10 @@
+{
+  "name": "money-xianyu-adapter",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "description": "闲鱼半自动读取 adapter（B 档 human-in-the-loop, read-only），给 cheat-on-money skill 提供成交侧数据",
+  "dependencies": {
+    "playwright-core": "^1.40.0"
+  }
+}
