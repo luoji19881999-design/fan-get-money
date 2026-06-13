@@ -47,7 +47,7 @@
 
 **macOS / Linux:**
 ```bash
-git clone https://github.com/luoji19881999-design/fan-get-money.git
+git clone https://github.com/fan19881999/fan-get-money.git
 cd fan-get-money
 chmod +x install-codex.sh
 ./install-codex.sh
@@ -55,7 +55,7 @@ chmod +x install-codex.sh
 
 **Windows (PowerShell):**
 ```powershell
-git clone https://github.com/luoji19881999-design/fan-get-money.git
+git clone https://github.com/fan19881999/fan-get-money.git
 cd fan-get-money
 .\install-codex.ps1
 ```
@@ -207,4 +207,5 @@ MIT License
 - 适配器坏了（平台改版导致选择器失效）→ 发 `diagnostics` 输出即可，几分钟能校准
 - 有新的平台适配器 → 按照 `human-in-the-loop, read-only` 规范写，过反诈 self-check
 - 有新的机会分类 → 更新 `opportunity-taxonomy.md`
+
 
