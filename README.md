@@ -8,7 +8,7 @@
 
 | 阶段 | 命令 | 做了什么 |
 |------|------|----------|
-| [Init] 初始化 | `/fan-money-init` | 5 个问题建立你的画像，10 维度评估，分 T0-T3 层级 |
+| [Init] 初始化 | `/fan-money-init` | 10 个问题建立你的画像，10 维度评估，分 T0-T3 层级 |
 | [Find] 找机会 | `/fan-money-find` | 实时搜索 + 一手平台数据，需求信号反推法输出机会列表 |
 | [Verify] 反诈 | `/fan-money-verify` | 对任意项目过反诈 rubric 24 分制，高危直接毙 |
 | [Plan] 行动 | `/fan-money-plan` | 生成执行计划：第一步验证、两周动作、预期收入、止损线 |
@@ -97,7 +97,7 @@ cd fan-get-money
 ## 技能详情
 
 ### fan-money-init
-首次 onboarding。只问 5 个必要问题（技能、时间、资金、地区、能否露脸），10 维度评估，判定 T0-T3 层级，生成 `.money-state.json`。所有后续 skill 的前置。
+首次 onboarding。只问 10个必要问题（技能、时间、资金、地区、能否露脸），10 维度评估，判定 T0-T3 层级，生成 `.money-state.json`。所有后续 skill 的前置。
 
 ### fan-money-find
 核心找机会技能。根据你的 tier 自动选择搜索策略。使用适配器读取闲鱼和 BOSS 直聘的一手数据，结合 WebSearch 交叉验证，每个机会标注来源 + 时效 + 收入预期。
