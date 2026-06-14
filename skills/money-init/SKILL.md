@@ -1,47 +1,54 @@
-﻿---
-name: money-init
-description: cheat-on-money skill 的首次 onboarding。建立用户画像（技能/可投入时间/启动资金/地区/能否露脸/语言）并创建 .money-state.json 状态文件，是所有其他 money-* skill 的前置。触发词："我想搞钱"/"启动搞钱"/"搞钱初始化"/"money init"/"搞钱 setup"。**当用户想找搞钱机会但 .money-state.json 不存在时，先路由到此。**
+---
+name: fan-money-init
+description: fan-get-money skill 的首次 onboarding。建立用户画像（技能/可投入时间/启动资金/地区/能否露脸/语言）并创建 .money-state.json 状态文件，是所有其他 fan-money-* skill 的前置。触发词："我想搞钱"/"启动搞钱"/"搞钱初始化"/"搞钱 setup"。**当用户想找搞钱机会但 .money-state.json 不存在时，先路由到此。**
 argument-hint: ""
 allowed-tools: Bash(*), Read, Write, Edit, Glob, Skill
 ---
 
-# /money-init — cheat-on-money 首次 onboarding
+# /fan-money-init — 启动搞钱：首次建档
 
-把用户从"我想搞钱"带到"有了一份清晰画像、可以开始找机会"，全程 <= 5 分钟。
+固定 9 个问题，全面但不冗余。每个问题都必须收集，不能跳过。
 
-## 跨平台说明（一次性，下文不再重复）
-下文写的 `../../shared-references/`、`../../templates/` 是 repo / Claude Code 的路径；**Codex 安装下改读当前 skill 目录的 `references/`、`templates/`**（`install-codex.sh` 已软链进来）。`allowed-tools` 是 Claude Code 权限声明，Codex 忽略。
+## 资源引用
 
-## 设计哲学（必须先认同）
-这套工具的差异点不是"列兼职"，是**反诈 + 个性化 + 实时验证**。所以 init 的目标不是给机会，而是先把"能用 = 对你真能用"的前提建立起来：没有画像，任何机会都是空话。
+本 repo 使用根目录 `shared-references/` / `templates/` / `adapters/` / `examples/` 存放共享文件。安装脚本会将它们复制到每个 skill 目录，使每个 skill 独立可用。
+
+## 核心原则
+
+收集完整画像：年龄/性别/技能/时间/资金/团队/地区/语言/露脸意愿/目标。init 后等于帮用户完成"知己"，后续 skill 负责"知彼"。
 
 ## Overview
 
 ```
-[用户首次说"我想搞钱"]
+[用户说"想搞钱"]
   ↓
-[Phase 0: 检测 .money-state.json 是否存在]
+[Phase 0: 检查 .money-state.json 是否存在]
   ↓
-[Phase 1: 欢迎词 + 9 个问题一次性呈现]
+[Phase 1: 收集必要信息 + 画像]
   ↓
 [Phase 2: 10 维度画像评估与打分]
   ↓
 [Phase 3: 分层定级 + 写入 .money-state.json]
   ↓
-[Phase 4: 给下一步清单]
+[Phase 4: 给"下一步"指引]
 ```
 
 ## Phase 0 — 状态检查
+
 ```bash
 test -f .money-state.json && echo EXISTS || echo MISSING
 ```
-- 已存在：告诉用户已初始化，问要不要更新画像（更新走 Edit），否则路由到 `money-status`。
-- 不存在：继续。
+- 已存在则读出并显示摘要，提示可用 `fan-money-status`
+- 不存在则继续
 
-## Phase 1 — 欢迎词 + 9 个问题（一次性呈现，原样输出不可改动一字）
+## Phase 1 — 信息收集（欢迎词 + 9 个问题，一次性呈现）
+
+**不要一个一个问。** 展示欢迎词后，9 个问题一次性全部列出，让用户一次性回答。用户回答完毕后直接进入 Phase 2。
+
+### 欢迎词模板（必须原样输出，不可改动一字）
 
 ```
-## 🚀 启动搞钱 — 初始化
+## ?? 启动搞钱 — 初始化
 
 准备好了吗？咱们开搞！
 
@@ -80,22 +87,19 @@ test -f .money-state.json && echo EXISTS || echo MISSING
 
 一次性回完，我直接出 10 维评估 + 分层。
 
-> 允许用户答"不确定"，记为 null，后续 money-find 会用更宽的范围。
-
 ### 字段映射
 
-| # | 字段 | 说明 |
-|---|------|------|
-| 1 | `age` | 如实，null 也可 |
-| 2 | `gender` | 男/女/不便透露 |
-| 3 | `skills` | 数组，如实列 |
-| 4 | `daily_hours` | 整数或小数 |
-| 5 | `startup_capital` | 数字，0 强烈建议 |
-| 6 | `team_size` | 数字 |
-| 7 | `region` + `language` | 默认中国大陆+中文 |
-| 8 | `can_show_face` | true/false |
-| 9 | `goal` | 短期快钱/长期创业/补贴小钱/稳定副业 |
-
+| # | 问题 | 字段 | 备注 |
+|---|------|------|------|
+| 1 | 多大年纪？ | `age` | 如实填写，null 也可 |
+| 2 | 性别？ | `gender` | 男/女/不便透露 |
+| 3 | 你会干什么？ | `skills` | 销售/教培/编程/开车/搬砖/写作/设计/视频/外语/会计/无明显技能 |
+| 4 | 每天大概能投入几小时？ | `daily_hours` | 整数或小数 |
+| 5 | 启动的钱多少？ | `startup_capital` | 0 强烈建议 |
+| 6 | 一个人干还是几个人一起？ | `team_size` | 一个人 / 几个人 |
+| 7 | 所在地区 / 主要语言？ | `region` + `language` | 默认中国大陆+中文 |
+| 8 | 能不能露脸出镜？ | `can_show_face` | 影响内容类机会 |
+| 9 | 最终想法和目标？ | `goal` | 短期快钱 / 长期创业 / 补贴小钱 / 稳定副业 |
 ## Phase 2 — 10 维度评估
 
 基于 Phase 1 收集的 9 个答案，按 10 个维度给用户打分并解释：
@@ -115,21 +119,25 @@ test -f .money-state.json && echo EXISTS || echo MISSING
 
 ## Phase 3 — 分层 + 写入
 
-读 `../../shared-references/user-tiers.md`，按"技能 × 资源 × 目标"把用户归到 **T0/T1/T2/T3** 一档：
-- 有可迁移专业(医疗/法律/财务等)+会用 AI → 倾向 **T3**
-- 会编程或愿学编程做东西 → **T2**
-- 会熟练用 AI 工具、有审美/表达 → **T1**
-- 没明显技能、想补贴小钱 → **T0**
+对照 `../shared-references/user-tiers.md` 按"技能 x 时间 x 资金"判定 T0/T1/T2/T3 层级。
 
-> 不确定时**就低不就高**。判定**明确告诉用户判成哪档、为什么**，并说"你比我更懂自己，可以改"。把 `tier` + `tier_reason` 写进 state。
+分层参考：
+- 零技能+零资金+零经验 → T0
+- 有 AI 工具熟练度（Cursor/Claude Code/Codex）+ 丰富行业经验 → T2
+- 单一 AI 技能/内容 → T1
+- 团队/资本/出海/技术复合 → T3
+- 能否露脸 → 影响内容类机会
 
-对照 `../../templates/money-state.template.json` 填入答案（含 `tier`/`tier_reason`），`created_at` 用今天日期，写到当前工作目录的 `.money-state.json`。所有 9 个问题的字段均写入。
+> 如果用户此前已有 `.money-state.json`，不覆盖旧的，只是追加更新，由 fan-money-retro 负责版本管理。
 
-## Phase 4 — 下一步清单
+对照 `../templates/money-state.template.json` 填入数据，设置 `updated_at` 为当前日期，写入 `.money-state.json`。所有 9 个问题的字段（age/gender/skills/daily_hours/startup_capital/team_size/region/can_show_face/language/goal）均写入 .money-state.json。
 
-告诉用户现在可以说：
-- **"找找业务"** → 走 `money-find`（按你的画像实时检索 + 反诈筛选）
-- **"验证XX"** → 走 `money-verify`（直接验证某个具体机会）
-- **"要干 XX"** → 走 `money-plan`（出行动方案+止损线）
-- **"复盘XX"** → 走 `money-retro`（对账预期vs实际）
-- **"进账状态"** → 走 `money-status`（全局看板）
+## Phase 4 — 下一步指引
+
+给用户 6 个下一步选项：
+
+- **`搞钱状态`** — 查看画像摘要，用 fan-money-status
+- **`帮我找机会`** — 基于你的画像去实时搜索和推理具体机会，用 fan-money-find
+- **`做 XX 的计划`** — 为某个 AI 机会 + 你生成行动方案，用 fan-money-plan
+- **`查 XX`** — 用反诈 rubric 验证某个具体项目/兼职/帖子是否可靠，用 fan-money-verify
+- **`复盘 XX`** — 复盘一个你正在做或做过的 AI 机会，沉淀到 lessons.md，用 fan-money-retro
