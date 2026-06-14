@@ -1,11 +1,11 @@
 ---
 name: fan-money-retro
-description: 复盘某个正在执行的搞钱机会：记录实际投入时间/实际收入 vs 当初预期，沉淀经验（哪类机会对我有效、哪些坑亲历过），更新状态文件。触发词："复盘"/"这个搞得怎么样"/"实际赚了多少"/"money retro"/"总结一下"。
+description: AI 拿当初预期和实际对账，经验写进 lessons.md，下次推荐更准。触发词："复盘XX"/"复盘"/"这个搞得怎么样"/"总结一下"。
 argument-hint: "<机会名称>"
 allowed-tools: Bash(*), Read, Write, Edit, Glob, Skill
 ---
 
-# /fan-money-retro — 复盘 + 学习沉淀 + 升级
+# /fan-money-retro — 复盘XX：预期 vs 实际对账 + 沉淀经验
 
 ## 步骤
 

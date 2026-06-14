@@ -1,11 +1,11 @@
 ---
 name: fan-money-verify
-description: fan-get-money skill 的反诈核心。对某个具体的兼职/副业/项目做反诈 rubric 打分，实时上网查证负面与真实收款证据，输出 高危/存疑/可行 判定 + 验证第一步 + 诚实收入预期。触发词："XX靠谱吗"/"这个项目是不是骗局"/"帮我查下这个兼职"/"money verify"/"验证机会"/"这个能信吗"。
+description: 直接验证某个具体机会：过硬红线、查负面、查实体，输出 高危/存疑/可行 判定 + 验证第一步 + 诚实收入预期。触发词："验证XX"/"XX靠谱吗"/"这个项目是不是骗局"/"这个能信吗"。
 argument-hint: "<需要验证的项目/机会/帖子>"
 allowed-tools: Bash(*), Read, Write, Edit, Glob, WebSearch, WebFetch, Skill
 ---
 
-# /fan-money-verify — 验证 + 反诈：核心 skill
+# /fan-money-verify — 验证XX：过硬红线 + 查负面 + 查实体
 
 我们优先检查**发布该机会的人而不是机会本身**。先查发布者。
 

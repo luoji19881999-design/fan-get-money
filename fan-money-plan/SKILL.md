@@ -1,11 +1,11 @@
 ---
 name: fan-money-plan
-description: 为用户选定的某个「可行」机会生成可执行行动方案：小成本验证第一步、前两周具体动作、诚实收入预期、止损线。触发词："我想做XX帮我做计划"/"这个怎么开始"/"给我行动方案"/"money plan"/"我选这个"。前置：该机会最好已过 fan-money-verify 判定为可行/存疑。
+description: AI 出行动方案 + 止损线。为选定的机会生成：小成本验证第一步、前两周动作、诚实收入预期、止损线。触发词："要干 XX"/"给我方案"/"我想做XX帮我做计划"。前置：该机会最好已过 fan-money-verify。
 argument-hint: "<选定的机会>"
 allowed-tools: Bash(*), Read, Write, Edit, Glob, WebSearch, WebFetch, Skill
 ---
 
-# /fan-money-plan — 行动计划生成 + 预测备案
+# /fan-money-plan — 要干 XX：出行动方案 + 止损线
 
 ## 前置
 - 读 `.money-state.json` 确认画像和所选机会，机会最好已过 `fan-money-verify`

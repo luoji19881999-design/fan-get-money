@@ -1,11 +1,11 @@
 ---
 name: fan-money-status
-description: fan-get-money skill 的状态看板。显示用户画像、候选机会及其反诈判定、当前在执行的机会与进度、复盘记录、建议的下一步。无副作用，任何时候可调。触发词："搞钱状态"/"我现在的进度"/"看板"/"money status"/"我现在该做什么"。
+description: 随时看全局：画像、机会列表、当前进度、复盘记录。无副作用，任何时候可调。触发词："进账状态"/"搞钱状态"/"我现在的进度"/"看板"/"我现在该做什么"。
 argument-hint: ""
 allowed-tools: Bash(*), Read, Glob, Skill
 ---
 
-# /fan-money-status — 状态总览看板
+# /fan-money-status — 进账状态：全局看板
 
 只读操作，无副作用。
 

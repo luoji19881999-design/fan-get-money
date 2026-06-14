@@ -1,11 +1,11 @@
 ---
 name: fan-money-find
-description: 用「需求信号反推法」找 AI 时代兼职/副业机会——不搜"教你赚钱"的帖子（那是卖课钓粉的污染信源），而是看行业报告/招聘数据/采购数据等利益中立的需求信号，推理出个人能供给的机会，并用多个独立信号交叉验证，每个机会再过反诈 rubric。触发词："帮我找机会"/"找AI兼职"/"有什么能搞钱的"/"money find"/"找副业"。前置：需要 .money-state.json（无则先路由到 fan-money-init）。
+description: 按你的画像（技术+渠道+销售）实时搜需求信号，反推出你能做的一人公司方向，每个过反诈 rubric。触发词："找找业务"/"找业务"/"帮我找机会"/"找副业"。前置：需要 .money-state.json（无则先路由到 fan-money-init）。
 argument-hint: "[可选方向]"
 allowed-tools: Bash(*), Read, Write, Edit, Glob, WebSearch, WebFetch, Skill
 ---
 
-# /fan-money-find — 需求信号 + 交叉验证 + 找机会
+# /fan-money-find — 找找业务：搜需求信号 + 反推一人公司方向
 
 ## 核心方法
 
